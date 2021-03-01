@@ -5,7 +5,6 @@ defined('ABSPATH') or die('No no no');
 class ServicesAnimalsBackendController
 {
     private static $instance;
-    
 
     public static function get_instance()
     {
@@ -72,7 +71,6 @@ class ServicesAnimalsBackendController
         include SA_PATH.'view/main.php';
     }
 
-
     private function _save_main_configs()
     {
         update_option('sa_quantity_per_batch', intval($_REQUEST['quantity_per_batch']));
@@ -96,28 +94,29 @@ class ServicesAnimalsBackendController
     public function sa_metabox_view($post)
     {
         $sa_custom_fields = ServicesAnimals::get_instance()->get_custom_fields();
-        foreach($sa_custom_fields as $key => $type) {
+        foreach ($sa_custom_fields as $key => $type) {
             $$key = get_post_meta($post->ID, $key, true);
         }
 
         wp_nonce_field('sa_nonce_metabox_action', 'sa_nonce_metabox_name');
 
-        include 'view/metabox.php';
+        include SA_PATH.'view/metabox.php';
     }
 
     public function sa_metabox_save($post_id)
     {
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
-        if (!isset($_POST['sa_nonce_metabox_name']) || !wp_verify_nonce($_POST['sa_nonce_metabox_name'], 'sa_nonce_metabox_action')) {
-            return;
-        }
-        if (!current_user_can('edit_post')) {
+        if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        or !isset($_POST['sa_nonce_metabox_name'])
+        or !wp_verify_nonce($_POST['sa_nonce_metabox_name'], 'sa_nonce_metabox_action')
+        or !current_user_can('edit_post')) {
             return;
         }
 
-        update_post_meta($post_id, 'asdasd', sanitize_text_field($_POST['asd']));
-       
+        $sa_custom_fields = ServicesAnimals::get_instance()->get_custom_fields();
+        foreach ($sa_custom_fields as $key => $type) {
+            if ('text' == $type) {
+                update_post_meta($post_id, $key, sanitize_text_field($_POST[$key]));
+            }
+        }
     }
 }
