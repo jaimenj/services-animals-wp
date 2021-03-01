@@ -78,6 +78,35 @@ class ServicesAnimals
     // The custom post type for the Sites under study..
     public function create_custom_post_type()
     {
+        $category_labels = [
+            'name' => 'Categories',
+            'singular_name' => 'Category',
+            'menu_name' => 'Categories',
+            'all_items' => 'All categories',
+            'edit_item' => 'Edit category',
+            'view_item' => 'View category',
+            'update_item' => 'Update category',
+            'add_new_item' => 'Add category',
+            'new_item_name' => 'New category name',
+            'parent_item' => null,
+            'parent_item_colon' => null,
+            'search_items' => 'Search categories',
+            'popular_items' => 'Popular categories',
+            'separate_items_with_commas' => 'Separate items with commas',
+            'add_or_remove_items' => 'Add or remove items',
+            'choose_from_most_used' => 'Choose from most used',
+            'not_found' => 'Not found',
+            'back_to_items' => 'Back to items',
+        ];
+
+        register_taxonomy('saitems_category', ['saitem'], [
+            'labels' => $category_labels,
+            'hierarchical' => true, // false like tags, true like categories
+            'show_ui' => true,
+            'show_admin_column' => true,
+            'query_var' => true,
+        ]);
+
         $taxonomy_labels = [
             'name' => 'Taxonomies',
             'singular_name' => 'Taxonomy',
@@ -101,7 +130,7 @@ class ServicesAnimals
 
         register_taxonomy('saitems_taxonomy', ['saitem'], [
             'labels' => $taxonomy_labels,
-            'hierarchical' => true, // false like tags, true like categories
+            'hierarchical' => false, // false like tags, true like categories
             'show_ui' => true,
             'show_admin_column' => true,
             'query_var' => true,
@@ -157,7 +186,7 @@ class ServicesAnimals
             ],*/
             'supports' => ['title', 'editor'],
             'register_meta_box_cb' => null, //'register_meta_box_cb' => [$this, 'sa_metabox_add'],
-            'taxonomies' => 'saitems_taxonomy',
+            'taxonomies' => ['saitems_category', 'saitems_taxonomy'],
             'has_archive' => false,
             'rewrite' => true, //'rewrite' => ['slug' => 'saitem', 'with_front' => true],
             'slug' => 'saitem',
