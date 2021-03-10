@@ -333,30 +333,28 @@ class ServicesAnimals
         register_post_type('saservice', $args);
     }
 
-    private function _fill_custom_fields()
+    public function get_fields_animals()
     {
-        $this->custom_fields = [
+        return [
             'name' => 'text',
             'description' => 'text',
             'type' => 'text',
             'specie' => 'text',
             'breed' => 'text',
             'birthdate' => 'text',
-            'created_at' => 'text',
-            'updated_at' => 'text',
             'gender' => 'text',
-            'adopter_id' => 'text',
-            'internal_id' => 'text',
-            'public_phone_number' => 'text',
-            'public_email' => 'text',
-            'share_counter' => 'text',
             'number_of_offspring' => 'text',
         ];
     }
+     
 
-    public function get_custom_fields()
+    public function get_fields_services()
     {
-        return $this->custom_fields;
+        return [
+            'name' => 'text',
+            'description' => 'text',
+            'type' => 'choices',
+        ];
     }
 }
 
