@@ -19,9 +19,11 @@ class ServicesAnimalsBackendController
     {
         add_action('admin_menu', [$this, 'add_admin_page']);
 
-        // Metabox for custom post type..
-        add_action('add_meta_boxes', [$this, 'sa_metabox_add']);
-        add_action('save_post', [$this, 'sa_metabox_save']);
+        // Metabox for custom post types..
+        add_action('add_meta_boxes', [$this, 'saanimal_metabox_add']);
+        add_action('save_post', [$this, 'saanimal_metabox_save']);
+        add_action('add_meta_boxes', [$this, 'saservice_metabox_add']);
+        add_action('save_post', [$this, 'saservice_metabox_save']);
     }
 
     public function add_admin_page()
@@ -79,21 +81,21 @@ class ServicesAnimalsBackendController
         return '<div id="message" class="notice notice-success is-dismissible"><p>Main options saved!</p></div>';
     }
 
-    public function sa_metabox_add()
+    public function saanimal_metabox_add()
     {
         add_meta_box(
             'saitem_metabox_id',
             'Services Animals',
-            [$this, 'sa_metabox_view'],
-            'saitem',
+            [$this, 'saanimal_metabox_view'],
+            'saanimal',
             'normal',
             'default'
         );
     }
 
-    public function sa_metabox_view($post)
+    public function saanimal_metabox_view($post)
     {
-        $sa_custom_fields = ServicesAnimals::get_instance()->get_custom_fields();
+        $sa_custom_fields = ServicesAnimals::get_instance()->get_fields_animals();
         foreach ($sa_custom_fields as $key => $type) {
             $$key = get_post_meta($post->ID, $key, true);
         }
@@ -103,7 +105,7 @@ class ServicesAnimalsBackendController
         include SA_PATH.'view/metabox.php';
     }
 
-    public function sa_metabox_save($post_id)
+    public function saanimal_metabox_save($post_id)
     {
         if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
         or !isset($_POST['sa_nonce_metabox_name'])
@@ -112,7 +114,48 @@ class ServicesAnimalsBackendController
             return;
         }
 
-        $sa_custom_fields = ServicesAnimals::get_instance()->get_custom_fields();
+        $sa_custom_fields = ServicesAnimals::get_instance()->get_fields_animals();
+        foreach ($sa_custom_fields as $key => $type) {
+            if ('text' == $type) {
+                update_post_meta($post_id, $key, sanitize_text_field($_POST[$key]));
+            }
+        }
+    }
+
+    public function saservice_metabox_add()
+    {
+        add_meta_box(
+            'saitem_metabox_id',
+            'Services Animals',
+            [$this, 'saservice_metabox_view'],
+            'saservice',
+            'normal',
+            'default'
+        );
+    }
+
+    public function saservice_metabox_view($post)
+    {
+        $sa_custom_fields = ServicesAnimals::get_instance()->get_fields_services();
+        foreach ($sa_custom_fields as $key => $type) {
+            $$key = get_post_meta($post->ID, $key, true);
+        }
+
+        wp_nonce_field('sa_nonce_metabox_action', 'sa_nonce_metabox_name');
+
+        include SA_PATH.'view/metabox.php';
+    }
+
+    public function saservice_metabox_save($post_id)
+    {
+        if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        or !isset($_POST['sa_nonce_metabox_name'])
+        or !wp_verify_nonce($_POST['sa_nonce_metabox_name'], 'sa_nonce_metabox_action')
+        or !current_user_can('edit_post')) {
+            return;
+        }
+
+        $sa_custom_fields = ServicesAnimals::get_instance()->get_fields_services();
         foreach ($sa_custom_fields as $key => $type) {
             if ('text' == $type) {
                 update_post_meta($post_id, $key, sanitize_text_field($_POST[$key]));

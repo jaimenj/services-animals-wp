@@ -16,7 +16,6 @@ include_once SA_PATH.'services-animals-backend-controller.php';
 class ServicesAnimals
 {
     private static $instance;
-    private $custom_fields;
 
     public static function get_instance()
     {
@@ -38,8 +37,6 @@ class ServicesAnimals
         add_action('init', [$this, 'create_custom_post_type_service']);
 
         ServicesAnimalsBackendController::get_instance();
-
-        $this->_fill_custom_fields();
     }
 
     public function activation()
@@ -167,7 +164,7 @@ class ServicesAnimals
             //'rest_base' => 'post_type',
             //'rest_controller_class' => 'WP_REST_Posts_Controller',
             'menu_position' => 40,
-            'menu_icon' => 'dashicons-admin-tools',
+            'menu_icon' => 'dashicons-pets',
             'capability_type' => 'post',
             'capabilities' => ['edit_post', 'read_post', 'delete_post', 'edit_posts', 'edit_others_posts',
                 'delete_posts', 'publish_posts', 'read_private_posts', ],
@@ -189,7 +186,7 @@ class ServicesAnimals
             'register_meta_box_cb' => null, //'register_meta_box_cb' => [$this, 'sa_metabox_add'],
             'taxonomies' => ['saanimal_category', 'saanimal_taxonomy'],
             'has_archive' => false,
-            'rewrite' => true, 
+            'rewrite' => true,
             'slug' => 'saitem',
             'with_front' => true,
             'feeds' => true,
@@ -295,7 +292,7 @@ class ServicesAnimals
             //'rest_base' => 'post_type',
             //'rest_controller_class' => 'WP_REST_Posts_Controller',
             'menu_position' => 40,
-            'menu_icon' => 'dashicons-admin-tools',
+            'menu_icon' => 'dashicons-id-alt',
             'capability_type' => 'post',
             'capabilities' => ['edit_post', 'read_post', 'delete_post', 'edit_posts', 'edit_others_posts',
                 'delete_posts', 'publish_posts', 'read_private_posts', ],
@@ -317,7 +314,7 @@ class ServicesAnimals
             'register_meta_box_cb' => null, //'register_meta_box_cb' => [$this, 'sa_metabox_add'],
             'taxonomies' => ['saservice_category', 'saservice_taxonomy'],
             'has_archive' => false,
-            'rewrite' => true, 
+            'rewrite' => true,
             'slug' => 'saservice',
             'with_front' => true,
             'feeds' => true,
@@ -346,7 +343,6 @@ class ServicesAnimals
             'number_of_offspring' => 'text',
         ];
     }
-     
 
     public function get_fields_services()
     {
