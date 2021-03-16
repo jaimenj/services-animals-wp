@@ -85,7 +85,7 @@ class ServicesAnimalsBackendController
     {
         add_meta_box(
             'saitem_metabox_id',
-            'Services Animals',
+            'Animal profile',
             [$this, 'saanimal_metabox_view'],
             'saanimal',
             'normal',
@@ -126,7 +126,7 @@ class ServicesAnimalsBackendController
     {
         add_meta_box(
             'saitem_metabox_id',
-            'Services Animals',
+            'Service profile',
             [$this, 'saservice_metabox_view'],
             'saservice',
             'normal',

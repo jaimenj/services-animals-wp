@@ -136,7 +136,7 @@ class ServicesAnimals
 
         $post_type_labels = [
             'name' => 'Animals',
-            'singular_name' => 'animal',
+            'singular_name' => 'Animal',
             'add_new' => 'Add animal',
             'add_new_item' => 'Add new animal',
             'edit_item' => 'Edit animal',
@@ -152,15 +152,15 @@ class ServicesAnimals
             'label' => 'Animals',
             'labels' => $post_type_labels,
             'description' => 'Animals..',
-            'public' => false,
+            'public' => true,
             'hierarchical' => false,
-            'exclude_from_search' => true,
-            'publicly_queryable' => false,
+            'exclude_from_search' => false,
+            'publicly_queryable' => true,
             'show_ui' => true,
             'show_in_menu' => true,
             'show_in_nav_menus' => true,
             'show_in_admin_bar' => true,
-            'show_in_rest' => false,
+            'show_in_rest' => true,
             //'rest_base' => 'post_type',
             //'rest_controller_class' => 'WP_REST_Posts_Controller',
             'menu_position' => 40,
@@ -185,9 +185,9 @@ class ServicesAnimals
             'supports' => ['title', 'editor'],
             'register_meta_box_cb' => null, //'register_meta_box_cb' => [$this, 'sa_metabox_add'],
             'taxonomies' => ['saanimal_category', 'saanimal_taxonomy'],
-            'has_archive' => false,
+            'has_archive' => true,
             'rewrite' => true,
-            'slug' => 'saitem',
+            'slug' => 'saanimal',
             'with_front' => true,
             'feeds' => true,
             'pages' => true,
@@ -264,7 +264,7 @@ class ServicesAnimals
 
         $post_type_labels = [
             'name' => 'Services',
-            'singular_name' => 'service',
+            'singular_name' => 'Service',
             'add_new' => 'Add service',
             'add_new_item' => 'Add new service',
             'edit_item' => 'Edit service',
@@ -280,15 +280,15 @@ class ServicesAnimals
             'label' => 'Services',
             'labels' => $post_type_labels,
             'description' => 'Services..',
-            'public' => false,
-            'hierarchical' => false,
-            'exclude_from_search' => true,
-            'publicly_queryable' => false,
+            'public' => true,
+            'hierarchical' => true,
+            'exclude_from_search' => false,
+            'publicly_queryable' => true,
             'show_ui' => true,
             'show_in_menu' => true,
             'show_in_nav_menus' => true,
             'show_in_admin_bar' => true,
-            'show_in_rest' => false,
+            'show_in_rest' => true,
             //'rest_base' => 'post_type',
             //'rest_controller_class' => 'WP_REST_Posts_Controller',
             'menu_position' => 40,
@@ -347,9 +347,12 @@ class ServicesAnimals
     public function get_fields_services()
     {
         return [
-            'name' => 'text',
-            'description' => 'text',
-            'type' => 'choices',
+            'name' => ['text'],
+            'description' => ['text'],
+            'type' => [
+                'choice',
+                'choices' => []
+            ],
         ];
     }
 }
