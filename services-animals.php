@@ -12,6 +12,7 @@ defined('ABSPATH') or die('No no no');
 define('SA_PATH', plugin_dir_path(__FILE__));
 
 include_once SA_PATH.'services-animals-backend-controller.php';
+include_once SA_PATH.'services-animals-gutenberg-block.php';
 
 class ServicesAnimals
 {
@@ -37,6 +38,7 @@ class ServicesAnimals
         add_action('init', [$this, 'create_custom_post_type_service']);
 
         ServicesAnimalsBackendController::get_instance();
+        ServicesAnimalsGutenbergBlock::get_instance();
     }
 
     public function activation()
@@ -192,10 +194,10 @@ class ServicesAnimals
             'feeds' => true,
             'pages' => true,
             //'ep_mask' => EP_PERMALINK,
-            //'query_var' => 'saitem',
-            //'can_export' => true,
-            //'delete_with_user' => false,
-            '_builtin' => false,
+            'query_var' => 'saitem',
+            'can_export' => true,
+            'delete_with_user' => false,
+            //'_builtin' => true,
             //'_edit_link' => 'post.php?post=%d',
         ];
 
@@ -320,10 +322,10 @@ class ServicesAnimals
             'feeds' => true,
             'pages' => true,
             //'ep_mask' => EP_PERMALINK,
-            //'query_var' => 'saservice',
-            //'can_export' => true,
-            //'delete_with_user' => false,
-            '_builtin' => false,
+            'query_var' => 'saservice',
+            'can_export' => true,
+            'delete_with_user' => false,
+            //'_builtin' => false,
             //'_edit_link' => 'post.php?post=%d',
         ];
 
@@ -351,7 +353,7 @@ class ServicesAnimals
             'description' => ['text'],
             'type' => [
                 'choice',
-                'choices' => []
+                'choices' => [],
             ],
         ];
     }
